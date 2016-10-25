@@ -79,7 +79,7 @@
       evt.preventDefault();
       document.querySelectorAll('.hidden').forEach((el)=> el.classList.remove('hidden'));
       this.classList.add('hidden');
-      init(this.querySelector('[name="url"]').value);
+      init(this.querySelector('[name="url"]').value.trim());
     });
 
   </script>
