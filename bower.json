@@ -1,0 +1,10 @@
+{
+  "name":"socket-subscriber",
+  "main":[
+    "build/bundle.js"
+  ],
+  "dependencies": {
+    "stomp-websocket": "^2.3.4",
+    "sockjs-client": "^1.1.1"
+  }
+}

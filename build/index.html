@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    .hidden {
+      display:none;
+    }
+    input[type='url'] {
+      width:100%;
+    }
+  </style>
+</head>
+<body>
+  <script src="bundle.js"></script>
+
+  <form name="init">
+    <input type="url" placeholder="Enter a stomp server url, please!" name="url" required />
+  </form>
+
+  <input type="button" value="send room" id="sendRoom" class="hidden" />
+  <input type="button" value="toggleDebugging" id="toggleDebugging" class="hidden" />
+
+  <script>
+
+    function on(querySelector, eventName, func) {
+      document.querySelector(querySelector).addEventListener(eventName, func);
+    }
+
+    function init(url) {
+
+      var count = 0;
+      var isDebugging = true;
+
+      function show(values, color) {
+        console.log('%c ' + JSON.stringify(values), 'background: #222; color: ' + color, values);
+      }
+
+      function sendRoom() {
+        client.sendRoom(ROOM_TYPE, ROOM_ID, ROOM_TEST_ACTION, {count:count});
+        count++;
+      }
+
+      function toggleDebugging() {
+        isDebugging = !isDebugging;
+        client.debug(isDebugging);
+        console.log('isDebugging=' + isDebugging);
+      }
+
+      var client = new SocketSubscriber(url, {debug:isDebugging})
+      var ROOM_TYPE = 'exam';
+      var ROOM_ID = '001';
+      var ROOM_TEST_ACTION = 'test';
+
+      client.on('connect', ()=> console.log('connection'));
+      client.on('close', ()=> console.log('error'));
+       
+      client
+      .room(ROOM_TYPE, ROOM_ID)
+      .on(ROOM_TEST_ACTION, function () { 
+        show(arguments, 'white');
+      })
+      .on(function () {
+        show(arguments, 'red');
+      });
+
+      client.date().on(function(){
+        show(arguments, 'yellow');
+      });
+
+      on('#sendRoom', 'click', sendRoom);
+      on('#toggleDebugging', 'click', toggleDebugging);
+
+    };
+
+    on('form[name="init"]', 'submit', function (evt) {
+      evt.preventDefault();
+      document.querySelectorAll('.hidden').forEach((el)=> el.classList.remove('hidden'));
+      this.classList.add('hidden');
+      init(this.querySelector('[name="url"]').value);
+    });
+
+  </script>
+</body>
+</html>
+
