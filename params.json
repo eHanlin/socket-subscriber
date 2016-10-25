@@ -1,0 +1,6 @@
+{
+  "name": "Socket-subscriber",
+  "tagline": "",
+  "body": "socket-subscriber\r\n=====================================\r\n\r\n## Usage\r\n\r\nCreate a instance.\r\n```js\r\nvar client = new SocketSubscriber(url, {debug:true});\r\n```\r\n\r\nRegister connect and error events.\r\n```js\r\nclient.on('connect', ()=> console.log('connection')); \r\nclient.on('close', ()=> console.log('close'));\r\n```\r\n\r\nSubscribe a room with register listener.\r\n```js\r\nclient.room('type', 'id').on((evt)=> console.log(evt));\r\n```\r\n\r\nSubscribe a date pusher with register listener.\r\n\r\n```js\r\nclient.date().on((evt)=> console.log(evt));\r\n``` \r\n\r\nSend a message to room.\r\n```js\r\nclient.sendRoom('type', 'id', data);\r\n```\r\n\r\n## Event\r\n\r\n* connect\r\n* close\r\n\r\n## API\r\n\r\n* on(evtName:string, listener:function)\r\n* off(evtName:string, listener:function)\r\n* debug(enabled:boolean)\r\n* date()\r\n* room(type:string, id:string)\r\n* sendRoom(type:string, id:string, action:string?, data:object?)\r\n\r\n## Run dev\r\n\r\n```sh\r\nnpm run dev\r\n```\r\n\r\n## Build\r\n\r\n```sh\r\nnpm run build\r\n```",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}

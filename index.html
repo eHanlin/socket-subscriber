@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Socket-subscriber by eHanlin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Socket-subscriber</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/eHanlin/socket-subscriber" class="btn">View on GitHub</a>
+      <a href="https://github.com/eHanlin/socket-subscriber/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/eHanlin/socket-subscriber/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="socket-subscriber" class="anchor" href="#socket-subscriber" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>socket-subscriber</h1>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Create a instance.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SocketSubscriber</span>(url, {debug<span class="pl-k">:</span><span class="pl-c1">true</span>});</pre></div>
+
+<p>Register connect and error events.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">client</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>connect<span class="pl-pds">'</span></span>, ()<span class="pl-k">=&gt;</span> <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>connection<span class="pl-pds">'</span></span>)); 
+<span class="pl-smi">client</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>close<span class="pl-pds">'</span></span>, ()<span class="pl-k">=&gt;</span> <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>close<span class="pl-pds">'</span></span>));</pre></div>
+
+<p>Subscribe a room with register listener.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">client</span>.<span class="pl-en">room</span>(<span class="pl-s"><span class="pl-pds">'</span>type<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>).<span class="pl-en">on</span>((<span class="pl-smi">evt</span>)<span class="pl-k">=&gt;</span> <span class="pl-en">console</span>.<span class="pl-c1">log</span>(evt));</pre></div>
+
+<p>Subscribe a date pusher with register listener.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">client</span>.<span class="pl-en">date</span>().<span class="pl-en">on</span>((<span class="pl-smi">evt</span>)<span class="pl-k">=&gt;</span> <span class="pl-en">console</span>.<span class="pl-c1">log</span>(evt));</pre></div>
+
+<p>Send a message to room.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">client</span>.<span class="pl-en">sendRoom</span>(<span class="pl-s"><span class="pl-pds">'</span>type<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>, data);</pre></div>
+
+<h2>
+<a id="event" class="anchor" href="#event" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Event</h2>
+
+<ul>
+<li>connect</li>
+<li>close</li>
+</ul>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h2>
+
+<ul>
+<li>on(evtName:string, listener:function)</li>
+<li>off(evtName:string, listener:function)</li>
+<li>debug(enabled:boolean)</li>
+<li>date()</li>
+<li>room(type:string, id:string)</li>
+<li>sendRoom(type:string, id:string, action:string?, data:object?)</li>
+</ul>
+
+<h2>
+<a id="run-dev" class="anchor" href="#run-dev" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run dev</h2>
+
+<div class="highlight highlight-source-shell"><pre>npm run dev</pre></div>
+
+<h2>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build</h2>
+
+<div class="highlight highlight-source-shell"><pre>npm run build</pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/eHanlin/socket-subscriber">Socket-subscriber</a> is maintained by <a href="https://github.com/eHanlin">eHanlin</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
