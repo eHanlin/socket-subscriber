@@ -1,6 +1,10 @@
 socket-subscriber
 =====================================
 
+## Demo
+
+[demo page](https://ehanlin.github.io/socket-subscriber/demo/index.html)
+
 ## Usage
 
 Create a instance.
