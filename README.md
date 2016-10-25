@@ -30,6 +30,11 @@ Send a message to room.
 client.sendRoom('type', 'id', data);
 ```
 
+## Event
+
+* connect
+* close
+
 ## API
 
 * on(evtName:string, listener:function)
