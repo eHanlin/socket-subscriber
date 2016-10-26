@@ -45,14 +45,14 @@ SocketSubscriber.prototype = {
 
   sendRoom: function (type, id, data, ...args) {
     let roomId = buildRoomId(type, id);
-    var evtType = null;
+    var label = null;
 
     if (typeof data === 'string') {
-      evtType = data;
+      label = data;
       data = args[0] || {};
     }
 
-    this.ready().then(()=> this._client.send(roomId, data, evtType));
+    this.ready().then(()=> this._client.send(roomId, data, label));
   },
 
   room: function (type, id) {

@@ -6,10 +6,10 @@ import {CONNECT, CLOSE, OPEN} from './constants/EventType'
 import SockJS from 'sockjs-client'
 import {Stomp} from 'stompjs/lib/stomp.js'
 
-function createBodyStr(data, action) {
+function createBodyStr(data, label) {
 
   var evtObj = {data:data, clientTime: +new Date()};
-  if ( action ) evtObj.action = action;
+  if ( label ) evtObj.label = label;
 
   return JSON.stringify(evtObj);
 }
@@ -23,11 +23,10 @@ function subscribe(socketClient, id) {
 
     if (resp.body) {
       var body = JSON.parse(resp.body);
-      var action = body.action;
+      var label = body.label;
+      var now = body.now;
 
-      socketClient.trigger(id, body.data || null, action);
-
-      action && socketClient.trigger(`${id}:${action}`, body.data || null, action);
+      socketClient.trigger((label ?`${id}:${label}` : id), body.data || null, now);
     }
   }, {id:id, subscriber: subscriber});
 }
@@ -113,9 +112,9 @@ GeneralSocketClient.prototype = {
     return new Promise((resolve, reject)=> this._client.disconnect(resolve))
   },
 
-  send: function (id, data, action = null) {
+  send: function (id, data, label = null) {
 
-    this._client.send(`${HOST_PATH}/${id}`, {}, createBodyStr(data, action));
+    this._client.send(`${HOST_PATH}/${id}`, {}, createBodyStr(data, label));
   },
 
   subscribe: function (id) {

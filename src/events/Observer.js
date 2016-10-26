@@ -31,8 +31,8 @@ function removeListenerByName(observer, name, func) {
   }
 }
 
-function runListener(listener, name, data, action, args) {
-  listener.call(null, new ObserverEvent(name, data, action))
+function runListener(listener, name, data, label, now, args) {
+  listener.call(null, new ObserverEvent(name, data, label, now))
 }
 
 Observer.prototype = {
@@ -47,11 +47,14 @@ Observer.prototype = {
     removeListenerByName(this, name, func)
   },
 
-  trigger: function (name, data = null, action = null, ...args) {
+  trigger: function (name, data = null, now = null, ...args) {
 
+    let [evtType, label] = name.split(':')
+    let evtListenerArr = getListenersByName(this, evtType) || []
     let listenerArr = getListenersByName(this, name) || []
 
-    listenerArr.forEach((listener)=> runListener(listener, name, data, action, args))
+    evtListenerArr.forEach((listener)=> runListener(listener, name, data, label, now, args))
+    label && listenerArr.forEach((listener)=> runListener(listener, name, data, label, now, args))
   }
 };
 
