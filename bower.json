@@ -1,5 +1,6 @@
 {
   "name":"socket-subscriber",
+  "version":"0.0.1",
   "main":[
     "build/bundle.js"
   ],

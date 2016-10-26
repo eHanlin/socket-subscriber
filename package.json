@@ -1,5 +1,6 @@
 {
   "name":"socket-subscriber",
+  "version":"0.0.1",
   "scripts": {
     "watch": "webpack --progress --colors --watch",
     "build": "NODE_ENV='production' webpack",
