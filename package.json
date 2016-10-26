@@ -2,7 +2,7 @@
   "name":"socket-subscriber",
   "scripts": {
     "watch": "webpack --progress --colors --watch",
-    "build": "webpack",
+    "build": "NODE_ENV='production' webpack",
     "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
   },
   "main":"./src/index.js",
