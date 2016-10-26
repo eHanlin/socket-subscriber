@@ -1,6 +1,15 @@
 {
   "name":"socket-subscriber",
   "version":"0.0.1",
+  "authors": [
+    "Sparrow.jang <sparrow.jang@gmail.com>"
+  ],
+  "keywords": [
+    "socket",
+    "room",
+    "stomp",
+    "subscriber"
+  ],
   "main":[
     "build/bundle.js"
   ],
