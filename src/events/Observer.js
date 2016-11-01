@@ -23,7 +23,11 @@ function removeListenerByName(observer, name, func) {
 
     delete observer._eventListeners[name];
 
-  } else {
+  }else if (name == null && func == null) {
+
+    observer._eventListeners = {};
+
+  }else {
     let listenerArr = getListenersByName(observer, name)
     let index = listenerArr.indexOf(func)
 
