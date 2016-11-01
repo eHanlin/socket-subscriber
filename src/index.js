@@ -63,6 +63,11 @@ SocketSubscriber.prototype = {
     return channel;
   },
 
+  exitRoom: function (type, id) {
+    let roomId = buildRoomId(type, id);
+    this.ready().then(()=> this._client.unsubscribe(roomId));
+  },
+
   date: function () {
     let id = TIMER_ID;
     let channel = new Channel(this, id);

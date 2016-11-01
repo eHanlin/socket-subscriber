@@ -46,6 +46,7 @@ client.sendRoom('type', 'id', data);
 * debug(enabled:boolean)
 * date()
 * room(type:string, id:string)
+* exitRoom(type:string ,id: string)
 * sendRoom(type:string, id:string, label:string?, data:object?)
 
 ## Run dev
