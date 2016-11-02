@@ -20,6 +20,7 @@ function SocketSubscriber(host, {debug = false} = {}) {
   this._client.on(CONNECT, ::this._onConnect);
   this._client.on(CLOSE, ::this._onClose);
   this.debug(debug);
+  this.id = (`${Math.random() * 10000}-${Math.random() * 10000}-${Math.random() * 10000}-${Math.random() * 10000}`).toString(16);
 }
 
 SocketSubscriber.prototype = {
@@ -57,7 +58,7 @@ SocketSubscriber.prototype = {
 
   room: function (type, id) {
     let roomId = buildRoomId(type, id);
-    let channel = new Channel(this, roomId);
+    let channel = Channel.getInstance(this, roomId);
 
     this.ready().then(()=> this._client.subscribe(roomId));
     return channel;
@@ -65,12 +66,15 @@ SocketSubscriber.prototype = {
 
   exitRoom: function (type, id) {
     let roomId = buildRoomId(type, id);
-    this.ready().then(()=> this._client.unsubscribe(roomId));
+    this.ready().then(()=> {
+      this._client.unsubscribe(roomId)
+      Channel.clear(this, roomId);
+    });
   },
 
   date: function () {
     let id = TIMER_ID;
-    let channel = new Channel(this, id);
+    let channel = Channel.getInstance(this, id);
 
     this.ready().then(()=> this._client.subscribe(id));
     return channel;
