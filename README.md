@@ -41,7 +41,7 @@ client.sendRoom('type', 'id', data);
 
 ## API
 
-### SocketSubscriber
+### SocketSubscriber(url:string, opts:object?)
 
 * on(evtName:string, listener:function)
 * off(evtName:string, listener:function)
@@ -53,8 +53,8 @@ client.sendRoom('type', 'id', data);
 
 ### Channel
 
-* on(evtName:String?, listener:function):Channel
-* off(evtName:String?, listener:function):Channel
+* on(evtName:string?, listener:function):Channel
+* off(evtName:string?, listener:function):Channel
 
 ## Run dev
 
