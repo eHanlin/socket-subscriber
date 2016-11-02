@@ -41,13 +41,20 @@ client.sendRoom('type', 'id', data);
 
 ## API
 
+### SocketSubscriber
+
 * on(evtName:string, listener:function)
 * off(evtName:string, listener:function)
 * debug(enabled:boolean)
-* date()
-* room(type:string, id:string)
+* date() : Channel
+* room(type:string, id:string) : Channel
 * exitRoom(type:string ,id: string)
 * sendRoom(type:string, id:string, label:string?, data:object?)
+
+### Channel
+
+* on(evtName:String?, listener:function):Channel
+* off(evtName:String?, listener:function):Channel
 
 ## Run dev
 
