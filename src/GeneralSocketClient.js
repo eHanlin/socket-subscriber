@@ -5,6 +5,7 @@ import {HOST_PATH, ROOM} from './constants/Config'
 import {CONNECT, CLOSE, OPEN} from './constants/EventType'
 import SockJS from 'sockjs-client'
 import {Stomp} from 'stompjs/lib/stomp.js'
+import * as random from './utils/random'
 
 function createBodyStr(data, label) {
 
@@ -19,14 +20,13 @@ function subscribe(socketClient, id) {
   let subscriber = socketClient._frame.headers.session
 
   socketClient._client.subscribe(`${HOST_PATH}/${id}`, function (resp) {
-    //console.log(arguments);
 
     if (resp.body) {
       var body = JSON.parse(resp.body);
       var label = body.label;
       var now = body.now;
 
-      socketClient.trigger((label ?`${id}:${label}` : id), body.data || null, now);
+      socketClient.trigger((label ?`${id}:${label}` : id), body.data || null, {now:now, headers:resp.headers});
     }
   }, {id:id, subscriber: subscriber});
 }
@@ -53,7 +53,8 @@ GeneralSocketClient.prototype = {
 
   _initConnection: function () {
 
-    var sockjs = this.sockjs = new SockJS(this.host);
+    let sessionId = this._sessionId = random.string();
+    let sockjs = this.sockjs = new SockJS(this.host, null, {sessionId:()=> sessionId});
 
     sockjs.addEventListener(CLOSE, ::this._onClose)
     sockjs.addEventListener(OPEN, ::this._onOpen)
@@ -69,6 +70,7 @@ GeneralSocketClient.prototype = {
 
   _onClose: function () {
     this.isClose = true;
+    this._sessionId = null;
 
     if (this._autoConn) setTimeout(()=>this._reconnect(), this._autoConnTime);
 
@@ -135,6 +137,10 @@ GeneralSocketClient.prototype = {
   debug: function (enabled) {
 
     this._isDebugging = enabled;
+  },
+
+  getSessionId: function () {
+    return this._sessionId;
   }
 
 };

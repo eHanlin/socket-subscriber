@@ -5,6 +5,7 @@ import Observer from './events/Observer'
 import inherits from './utils/inherits'
 import {CONNECT, CLOSE} from './constants/EventType'
 import Channel from './Channel'
+import * as random from './utils/random'
 
 function buildRoomId(type, id) {
 
@@ -20,7 +21,7 @@ function SocketSubscriber(host, {debug = false} = {}) {
   this._client.on(CONNECT, ::this._onConnect);
   this._client.on(CLOSE, ::this._onClose);
   this.debug(debug);
-  this.id = (`${Math.random() * 10000}-${Math.random() * 10000}-${Math.random() * 10000}-${Math.random() * 10000}`).toString(16);
+  this.id = random.string();
 }
 
 SocketSubscriber.prototype = {
@@ -78,6 +79,11 @@ SocketSubscriber.prototype = {
 
     this.ready().then(()=> this._client.subscribe(id));
     return channel;
+  },
+
+  getSockJSSessionId: function () {
+
+    return this._client.getSessionId();
   }
 
 };
