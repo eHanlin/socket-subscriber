@@ -50,6 +50,7 @@ client.sendRoom('type', 'id', data);
 * room(type:string, id:string) : Channel
 * exitRoom(type:string ,id: string)
 * sendRoom(type:string, id:string, label:string?, data:object?)
+* getSockJSSessionId():string
 
 ### Channel
 
