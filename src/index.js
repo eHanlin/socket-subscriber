@@ -26,9 +26,9 @@ function SocketSubscriber(host, {debug = false} = {}) {
 
 SocketSubscriber.prototype = {
 
-  _onConnect: function () {
+  _onConnect: function (evt) {
 
-    this.trigger(CONNECT);
+    this.trigger(CONNECT, null, {headers:evt.headers});
   },
 
   _onClose: function () {

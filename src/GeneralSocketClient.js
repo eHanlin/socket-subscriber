@@ -84,7 +84,7 @@ GeneralSocketClient.prototype = {
   _onConnect: function (frame) {
     this._frame = frame;
     this._firstConnected = true
-    this.trigger(CONNECT);
+    this.trigger(CONNECT, null, {headers:frame.headers});
   },
 
   _reconnect: function () {
