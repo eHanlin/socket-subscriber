@@ -49,7 +49,7 @@ client.sendRoom('type', 'id', data);
 * date() : Channel
 * room(type:string, id:string) : Channel
 * exitRoom(type:string ,id: string)
-* sendRoom(type:string, id:string, label:string?, data:object?)
+* sendRoom(type:string, id:string, label:string?, data:object?, headers: object?)
 * getSockJSSessionId():string
 
 ### Channel

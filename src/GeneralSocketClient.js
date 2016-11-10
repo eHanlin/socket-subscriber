@@ -114,9 +114,15 @@ GeneralSocketClient.prototype = {
     return new Promise((resolve, reject)=> this._client.disconnect(resolve))
   },
 
-  send: function (id, data, label = null) {
+  send: function (id, data, label = null, headers = {}) {
 
-    this._client.send(`${HOST_PATH}/${id}`, {}, createBodyStr(data, label));
+    let subscriber = this._frame.headers.session;
+    let sendHeaders = {subscriber:subscriber, id:id};
+    console.log(headers);
+
+    for(let headerName in headers) sendHeaders[headerName] = headers[headerName];
+
+    this._client.send(`${HOST_PATH}/${id}`, sendHeaders, createBodyStr(data, label));
   },
 
   subscribe: function (id) {

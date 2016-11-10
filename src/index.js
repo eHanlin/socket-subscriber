@@ -45,16 +45,17 @@ SocketSubscriber.prototype = {
     return this._connectPromise;
   },
 
-  sendRoom: function (type, id, data, ...args) {
+  sendRoom: function (type, id, data, headers, ...args) {
     let roomId = buildRoomId(type, id);
     var label = null;
 
     if (typeof data === 'string') {
       label = data;
-      data = args[0] || {};
+      data = headers || {};
+      headers = args[0] || {};
     }
 
-    this.ready().then(()=> this._client.send(roomId, data, label));
+    this.ready().then(()=> this._client.send(roomId, data, label, headers));
   },
 
   room: function (type, id) {
