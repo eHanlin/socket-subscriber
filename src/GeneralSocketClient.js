@@ -80,7 +80,6 @@ GeneralSocketClient.prototype = {
   _isNeedReConnection: function () {
     let retryCount = this._retryCount;
 
-    console.log(this._currentRetryCount, retryCount);
     if (this._autoConn && (retryCount < 0 || retryCount > this._currentRetryCount)) return true; else return false;
   },
 
