@@ -13,10 +13,13 @@ function buildRoomId(type, id) {
 }
 
 
-function SocketSubscriber(host, {debug = false} = {}) {
+function SocketSubscriber(host, {debug = false, retryTime = 10000, retryCount = -1} = {}) {
   Observer.call(this);
 
-  this._client = new GeneralSocketClient(host);
+  this._client = new GeneralSocketClient(host, {
+    retryTime:retryTime,
+    retryCount:retryCount
+  });
   this._connectPromise = this._client.connect();
   this._client.on(CONNECT, ::this._onConnect);
   this._client.on(CLOSE, ::this._onClose);

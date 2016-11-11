@@ -37,14 +37,15 @@ function unsubscribe(socketClient, id) {
 }
 
 
-function GeneralSocketClient (host, {autoConn = true, autoConnTime = 1000} = {}) {
+function GeneralSocketClient (host, {autoConn = true, retryTime = 1000, retryCount = -1} = {}) {
   Observer.call(this);
 
   this.host = host;
   this.isClose = true;
   this._autoConn = autoConn;
   this._firstConnected = false;
-  this._autoConnTime = autoConnTime;
+  this._retryCount = retryCount;
+  this._retryTime = retryTime;
   this._subscriptions = {};
   this.debug(false);
 }
@@ -68,11 +69,26 @@ GeneralSocketClient.prototype = {
     };
   },
 
+  _resetStates: function () {
+    this._currentRetryCount = 0;
+  },
+
+  _incRetryCount: function (){
+    this._currentRetryCount++;
+  },
+
+  _isNeedReConnection: function () {
+    let retryCount = this._retryCount;
+
+    console.log(this._currentRetryCount, retryCount);
+    if (this._autoConn && (retryCount < 0 || retryCount > this._currentRetryCount)) return true; else return false;
+  },
+
   _onClose: function () {
     this.isClose = true;
     this._sessionId = null;
 
-    if (this._autoConn) setTimeout(()=>this._reconnect(), this._autoConnTime);
+    if (this._isNeedReConnection()) setTimeout(()=>this._reconnect(), this._retryTime);
 
     this.trigger(CLOSE);
   },
@@ -90,9 +106,10 @@ GeneralSocketClient.prototype = {
   _reconnect: function () {
 
     let subscriptions = this._subscriptions
+    this._incRetryCount();
 
     this
-    .connect(this._lastLogin, this._passcode)
+    .connect(this._lastLogin, this._passcode, true)
     .then((function () {
       for (var name in subscriptions) {
         subscribe(this, name);
@@ -100,16 +117,20 @@ GeneralSocketClient.prototype = {
     }).bind(this));
   },
 
-  connect: function (login, passcode) {
+  connect: function (login, passcode, _internal = false) {
     this._lastLogin = login
     this._passcode = passcode
 
-    if (this.isClose) this._initConnection();
+    if (this.isClose) {
+      if (!_internal) this._resetStates();
+      this._initConnection();
+    }
 
     return new Promise((resolve, reject) => this._client.connect(login, passcode, ((frame)=> this._onConnect(frame) || resolve()), reject));
   },
 
   disconnect: function () {
+    this._resetStates();
     this._autoConn = false
     return new Promise((resolve, reject)=> this._client.disconnect(resolve))
   },
