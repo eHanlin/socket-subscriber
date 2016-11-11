@@ -14,8 +14,11 @@ var idleMethods = {
 
   __resetIdle: function () {
     let idleInfo = this._idleInfo;
-    clearTimeout(idleInfo.id);
-    idleInfo.id = setTimeout(()=> this::onIdle(), idleInfo.time);
+
+    if (this._idleInfo) {
+      clearTimeout(idleInfo.id);
+      idleInfo.id = setTimeout(()=> this::onIdle(), idleInfo.time);
+    }
   },
 
 };
