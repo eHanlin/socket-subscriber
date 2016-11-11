@@ -42,11 +42,11 @@ client.sendRoom('type', 'id', data);
 ## API
 
 ### SocketSubscriber(url:string, opts:object?)
-> opts.debug(boolean)： Trace logs.
+> opts.debug(boolean)： Trace logs. (default:false)
 
-> opts.retryCount(Number): The value is retring count. The connection is not retring if value is 0. And value < 0 will retry to connect success.
+> opts.retryCount(Number): The value is retring count. The connection is not retring if value is 0. And value < 0 will retry to connect success. (default: 10000)
 
-> opts.retryTime(Number): Retry delay time.
+> opts.retryTime(Number): Retry delay time. (default: -1)
 
 * on(evtName:string, listener:function)
 * off(evtName:string, listener:function)
