@@ -56,6 +56,7 @@
 
       client.on('connect', ()=> console.log('connection'));
       client.on('close', ()=> console.log('error'));
+      client.on('idle', ()=> console.log('idle'));
        
       client
       .room(ROOM_TYPE, ROOM_ID)

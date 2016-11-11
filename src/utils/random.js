@@ -6,7 +6,7 @@ function randomString() {
 }
 
 
-export const string = function () {
+export function string() {
   return (`${randomString()}-${randomString()}-${randomString()}-${randomString()}-${randomString()}`);
 }
 

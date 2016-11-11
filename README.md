@@ -38,6 +38,7 @@ client.sendRoom('type', 'id', data);
 
 * connect
 * close
+* idle
 
 ## API
 
@@ -47,6 +48,8 @@ client.sendRoom('type', 'id', data);
 > opts.retryCount(Number): The value is retring count. The connection is not retring if value is 0. And value < 0 will retry to connect success. (default: 10000)
 
 > opts.retryTime(Number): Retry delay time. (default: -1)
+
+> opts.idleTime(Number): Set idle time. (default: 600000)
 
 * on(evtName:string, listener:function)
 * off(evtName:string, listener:function)
