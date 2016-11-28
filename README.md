@@ -51,6 +51,8 @@ client.sendRoom('type', 'id', data);
 
 > opts.idleTime(Number): Set idle time. (default: 600000)
 
+> opts.incomingHeartbeat(Number): Set headrtbeat from server. (default: 1000 ms)
+
 * on(evtName:string, listener:function)
 * off(evtName:string, listener:function)
 * debug(enabled:boolean)

@@ -17,12 +17,13 @@ function buildRoomId(type, id) {
 @Idle()
 class SocketSubscriber {
 
-  constructor(host, {debug = false, retryTime = 10000, retryCount = -1, idleTime = 600000} = {}) {
+  constructor(host, {debug = false, retryTime = 10000, retryCount = -1, idleTime = 600000, incomingHeartbeat = 1000} = {}) {
     Observer.call(this);
 
     this._client = new GeneralSocketClient(host, {
       retryTime:retryTime,
-      retryCount:retryCount
+      retryCount:retryCount,
+      incomingHeartbeat:incomingHeartbeat
     });
     this._connectPromise = this._client.connect();
     this._client.on(CONNECT, ::this._onConnect);

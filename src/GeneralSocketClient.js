@@ -37,7 +37,7 @@ function unsubscribe(socketClient, id) {
 }
 
 
-function GeneralSocketClient (host, {autoConn = true, retryTime = 1000, retryCount = -1} = {}) {
+function GeneralSocketClient (host, {autoConn = true, retryTime = 1000, retryCount = -1, incomingHeartbeat = 1000} = {}) {
   Observer.call(this);
 
   this.host = host;
@@ -46,6 +46,7 @@ function GeneralSocketClient (host, {autoConn = true, retryTime = 1000, retryCou
   this._firstConnected = false;
   this._retryCount = retryCount;
   this._retryTime = retryTime;
+  this._incomingHeartbeat = incomingHeartbeat;
   this._subscriptions = {};
   this.debug(false);
 }
@@ -55,12 +56,14 @@ GeneralSocketClient.prototype = {
   _initConnection: function () {
 
     let sessionId = this._sessionId = random.string();
-    let sockjs = this.sockjs = new SockJS(this.host, null, {sessionId:()=> sessionId});
+    let sockjs = this.sockjs = new SockJS(this.host, null, {sessionId:()=> sessionId, heartbeatTimeout:1000, server_heartbeat_interval:300});
 
     sockjs.addEventListener(CLOSE, ::this._onClose)
     sockjs.addEventListener(OPEN, ::this._onOpen)
 
     this._client = Stomp.over(sockjs);
+    //this._client.heartbeat.outgoing = 100;
+    this._client.heartbeat.incoming = this._incomingHeartbeat;
     this._client.debug = (text)=> {
       if (this._isDebugging)
         console.log(text);
@@ -125,7 +128,7 @@ GeneralSocketClient.prototype = {
       this._initConnection();
     }
 
-    return new Promise((resolve, reject) => this._client.connect(login, passcode, ((frame)=> this._onConnect(frame) || resolve()), reject));
+    return new Promise((resolve, reject) => this._client.connect(login, passcode, ((frame)=> this._onConnect(frame) || resolve()), function () {console.log(arguments);reject()}));
   },
 
   disconnect: function () {
@@ -138,7 +141,6 @@ GeneralSocketClient.prototype = {
 
     let subscriber = this._frame.headers.session;
     let sendHeaders = {subscriber:subscriber, id:id};
-    console.log(headers);
 
     for(let headerName in headers) sendHeaders[headerName] = headers[headerName];
 
