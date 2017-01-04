@@ -11,6 +11,7 @@ module.exports = {
   entry: entry,
   output: {
     path: path.join(__dirname, 'build'),
+    libraryTarget:'umd',
     filename: 'bundle.js'
   },  
   plugins: [
